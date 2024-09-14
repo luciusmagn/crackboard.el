@@ -37,7 +37,7 @@
 (defvar crackboard-last-heartbeat 0
   "Timestamp of the last heartbeat sent.")
 
-(defvar crackboard-heartbeat-interval 120
+(defvar crackboard-heartbeat-interval 123
   "Interval in seconds between heartbeats.")
 
 (defvar crackboard-debug-buffer "*Crackboard Debug*"
