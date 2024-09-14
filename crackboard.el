@@ -122,6 +122,8 @@
                 ("language_name" . ,language)))
              'utf-8)))
       (when (> (- now crackboard-last-heartbeat) crackboard-heartbeat-interval)
+        (crackboard-log (buffer-file-name))
+        (crackboard-log (crackboard-get-language (buffer-file-name)))
         (setq crackboard-last-heartbeat now)
         (url-retrieve crackboard-endpoint #'crackboard-handle-response nil t t)))))
 
