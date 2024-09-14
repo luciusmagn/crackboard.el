@@ -1,0 +1,31 @@
+* crackboard.el
+
+An Emacs extension that sends coding activity heartbeats to Bogan's [[https://crackboard.dev/][Crackboard]].
+
+** Installation
+
+*** Manual
+
+Download =crackboard.el= and add it to your load path. Then add to your =init.el=:
+
+#+begin_src elisp
+(require 'crackboard)
+(crackboard-init "your-session-key-here")
+#+end_src
+
+*** Using straight.el
+
+#+begin_src elisp
+(use-package crackboard
+  :straight (crackboard :type git :host github :repo "luciusmagn/crackboard.el")
+  :config
+  (crackboard-init "your-session-key-here"))
+#+end_src
+
+** Usage
+
+After initialization, the extension will automatically send heartbeats when you save files or after periods of inactivity.
+
+** License
+
+This project is licensed under the Fair License. See the top of =crackboard.el= or the =LICENSE= file for the full license text.
