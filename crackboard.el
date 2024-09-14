@@ -45,10 +45,9 @@
 
 (defun crackboard-get-language (file-or-ext)
   "Get the language name from FILE-OR-EXT (filename or extension)."
-  (let* ((ext (if (string-prefix-p "." file-or-ext)
-                  file-or-ext
-                (file-name-extension file-or-ext t)))
-         (basename (file-name-nondirectory file-or-ext))
+  (let* ((filename (file-name-nondirectory file-or-ext))
+         (ext (file-name-extension filename t))
+         (basename (file-name-sans-extension filename))
          (lang-map
           '(("rs" . "rust")
             ("zig" . "zig")
@@ -87,10 +86,26 @@
             ("odin" . "odin")
             ("nix" . "nix")
             ("nim" . "nim")))
-         (result (or (car (rassoc ext lang-map))
-                     (car (rassoc (downcase basename) lang-map))
-                     (car (rassoc (downcase ext) lang-map)))))
+         (ext-without-dot (if (string-prefix-p "." ext) (substring ext 1) ext))
+         (result (or (cl-some (lambda (entry)
+                                (when (member ext-without-dot (ensure-list (car entry)))
+                                  (cdr entry)))
+                              lang-map)
+                     (cl-some (lambda (entry)
+                                (when (member (downcase basename) (ensure-list (car entry)))
+                                  (cdr entry)))
+                              lang-map)
+                     (cl-some (lambda (entry)
+                                (when (member (downcase filename) (ensure-list (car entry)))
+                                  (cdr entry)))
+                              lang-map))))
+    (crackboard-log "Language detection: file-or-ext=%s, filename=%s, ext=%s, basename=%s, result=%s"
+                    file-or-ext filename ext basename (or result "txt"))
     (or result "txt")))
+
+(defun ensure-list (x)
+  "If X is already a list, return it. Otherwise, return a list with X as its only element."
+  (if (listp x) x (list x)))
 
 (defun crackboard-log (message &rest args)
   "Log MESSAGE with ARGS to the Crackboard debug buffer."
