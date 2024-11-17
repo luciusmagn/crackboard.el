@@ -4,7 +4,7 @@
 
 ;; Author: Lukas Hozda <me@mag.wiki>
 ;; Version: 0.1
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "28.1"))
 ;; Keywords: convenience
 ;; URL: https://github.com/luciusmagn/crackboard.el
 
